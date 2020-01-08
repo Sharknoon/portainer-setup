@@ -16,22 +16,15 @@ docker create \
 
 # Creating the portainer itself
 
-PORT=9000
-
 docker volume create portainer_data
 
 docker create \
-  -p $PORT:9000 \
+  -p 9000:9000 \
   -p 8000:8000 \
   --name portainer \
   --restart always \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v portainer_data:/data \
-  -v /etc/letsencrypt/live/netcup.sharknoon.de/fullchain.pem:/certs/fullchain.pem \
-  -v /etc/letsencrypt/live/netcup.sharknoon.de/privkey.pem:/certs/privkey.pem \
-  portainer/portainer:latest \
-  --ssl \
-  --sslcert /certs/fullchain.pem \
-  --sslkey /certs/privkey.pem \
+  portainer/portainer:latest
 
 docker network connect portainer-net portainer
